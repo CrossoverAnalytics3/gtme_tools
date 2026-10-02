@@ -1,0 +1,19 @@
+name,email,title,company,employees,industry,country,pricing_views,demo_requested,message,source
+Dana Whitfield,dana@northpeakcommerce.com,VP Engineering,Northpeak Commerce,850,E-commerce,US,4,yes,"We're planning a migration off our current host before Q2 and need SSO plus an SLA. Can we talk this week?",Demo form
+Marco Ruiz,marco@ledgerlane.io,Head of Platform,LedgerLane,320,Fintech,GB,2,yes,Evaluating options for multi-region deploys. Security review is on our side.,Demo form
+Priya Shah,priya.shah@gmail.com,Founder,,,,,1,no,just looking around,Pricing page
+Tom Becker,tom@brightcart.de,Frontend Developer,BrightCart,140,E-commerce,DE,3,no,"How does preview deployment work with our monorepo? We have 12 apps.",Contact form
+Alex Kim,alex.kim@stateuniversity.edu,Student,State University,,Education,US,0,no,Need this for my thesis project,Contact form
+Jordan Lee,jordan@acmeinsure.com,Director of Digital,Acme Insurance,12000,Insurance,US,3,yes,"Enterprise contract needed, procurement wants SOC 2 report before trial.",Demo form
+Sam Okafor,sam@pixelmedia.co,CTO,Pixel Media,60,Media,CA,5,yes,"We want to move 40 marketing sites over. Timeline is 6 weeks.",Demo form
+Lena Novak,lena@rankfast-seo.com,Account Manager,RankFast,15,Marketing services,US,0,no,We offer SEO services and guest post opportunities,Contact form
+Chris Patel,chris@shopwave.com,Senior Engineer,ShopWave,600,SaaS,US,1,no,Question about build minutes on the team plan,Docs
+Riley Chen,riley@competitor.com,Product Manager,Competitor Inc,900,Software,US,6,no,Curious about your pricing tiers,Pricing page
+Morgan Price,morgan@fjordtravel.no,Head of Engineering,Fjord Travel,210,Travel,NO,2,yes,"Looking to replace our CDN and hosting setup, about 30 sites.",Demo form
+Avery Johnson,avery@quickbite.app,Co-founder,QuickBite,25,Food delivery,US,4,yes,Need help scaling for launch next month,Demo form
+Jamie Torres,jamie@globalretail.com,Engineering Manager,Global Retail Group,45000,Retail,US,2,no,"Enterprise team exploring migrate options, SSO required",Contact form
+Casey Brooks,casey.brooks@outlook.com,VP Marketing,,,,US,3,yes,"Our agency runs sites for 15 ecommerce brands, want to talk volume pricing",Demo form
+Taylor Nguyen,taylor@learnly.com,Software Engineer,Learnly,90,Edtech,AU,0,no,Love the product,Newsletter
+Robin Hart,robin@paystackly.com,Chief Technology Officer,Paystackly,1400,Fintech,US,6,yes,"We're consolidating 3 platforms. Need SLA, SAML SSO and a contract by end of quarter. Procurement is engaged.",Demo form
+Drew Fischer,drew@mediahaus.de,Developer,MediaHaus,75,Media,DE,1,no,api limits?,Docs
+Jesse Morgan,jesse@cloudnine.io,Lead Engineer,CloudNine,4800,Software,US,2,no,"Asking for my team, we're comparing a few platforms for a migration",Contact form

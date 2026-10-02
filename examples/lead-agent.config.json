@@ -1,0 +1,93 @@
+{
+  "icp": {
+    "minEmployees": 50,
+    "maxEmployees": 5000,
+    "industries": [
+      "software",
+      "saas",
+      "e-commerce",
+      "ecommerce",
+      "fintech",
+      "media",
+      "marketplace"
+    ],
+    "countries": [
+      "US",
+      "CA",
+      "GB",
+      "UK",
+      "DE",
+      "FR",
+      "NL",
+      "AU"
+    ],
+    "seniorTitles": [
+      "vp",
+      "vice president",
+      "head",
+      "director",
+      "chief",
+      "cto",
+      "ceo",
+      "cio",
+      "founder",
+      "co-founder",
+      "principal",
+      "lead"
+    ],
+    "freeEmailDomains": [
+      "gmail.com",
+      "yahoo.com",
+      "hotmail.com",
+      "outlook.com",
+      "icloud.com",
+      "aol.com",
+      "proton.me",
+      "protonmail.com"
+    ],
+    "competitorDomains": [
+      "competitor.com"
+    ],
+    "disqualifyKeywords": [
+      "student",
+      "homework",
+      "thesis",
+      "job application",
+      "resume",
+      "internship",
+      "seo services",
+      "guest post"
+    ],
+    "enterpriseKeywords": [
+      "sso",
+      "saml",
+      "soc 2",
+      "soc2",
+      "migration",
+      "migrate",
+      "enterprise",
+      "contract",
+      "procurement",
+      "sla",
+      "security review",
+      "multi-region"
+    ]
+  },
+  "weights": {
+    "employeesFit": 20,
+    "industryFit": 15,
+    "countryFit": 5,
+    "seniority": 15,
+    "businessEmail": 5,
+    "demoRequest": 15,
+    "pricingVisits": 10,
+    "enterpriseKeywords": 10,
+    "messageDetail": 5
+  },
+  "thresholds": {
+    "ae": 70,
+    "qa": 45,
+    "grayBand": 3,
+    "minIntent": 10
+  }
+}

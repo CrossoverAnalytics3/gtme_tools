@@ -1,0 +1,18 @@
+{
+  "name": "gtme-tools",
+  "version": "1.0.0",
+  "description": "Interactive GTM engineering and product marketing tools built from the Modern Product Marketing & GTM executive brief.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "qualify-leads": "bin/qualify-leads.js"
+  },
+  "scripts": {
+    "start": "node serve.js",
+    "test": "node --test",
+    "qualify": "node bin/qualify-leads.js"
+  }
+}
