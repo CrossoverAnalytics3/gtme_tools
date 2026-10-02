@@ -1,0 +1,17 @@
+<!-- @dsCard group="Data display" height=190 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Callout preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.append(
+    K.Callout({ body: 'Set targets before launch. If your holdout is too small to detect the lift you want, you will ship and never know if it worked.' }),
+    K.Callout({ tone: 'good', title: 'Winner: B: feminine graphic tees.', body: '+50% conversion vs. control (p < 0.001).' }),
+    K.Callout({ tone: 'warn', body: 'No variant beats control with significance yet.' }),
+    K.Callout({ tone: 'bad', body: 'Too small to detect. You need 1,850 users per group, but the holdout has 200.' })
+  );
+</script>
+</body>
+</html>

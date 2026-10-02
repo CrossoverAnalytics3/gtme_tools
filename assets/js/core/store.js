@@ -1,5 +1,10 @@
-// Per-tool persistence in localStorage. Every read and write is guarded:
-// private windows and blocked storage just mean the tool forgets on reload.
+// Per-tool persistence.
+// - Always: localStorage, so the page works offline and in the repo.
+// - Hosted on claude.ai: also the viewer's private `db` subtree
+//   (data/users/<id>/<tool>), so work follows the person across devices.
+// Every read and write is guarded; a failure just means "this browser only".
+
+import { capability } from './runtime.js';
 
 const PREFIX = 'gtm-toolkit:';
 
@@ -7,42 +12,127 @@ export function clone(x) {
   return JSON.parse(JSON.stringify(x));
 }
 
-export function createStore(key, defaults) {
-  const k = PREFIX + key;
-  let state = load();
-
-  function load() {
-    try {
-      const raw = localStorage.getItem(k);
-      if (raw) return { ...clone(defaults), ...JSON.parse(raw) };
-    } catch {
-      /* fall through to defaults */
-    }
-    return clone(defaults);
+function readLocal(k) {
+  try {
+    const raw = localStorage.getItem(k);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
   }
+}
+
+function writeLocal(k, v) {
+  try {
+    if (v == null) localStorage.removeItem(k);
+    else localStorage.setItem(k, JSON.stringify(v));
+  } catch {
+    /* storage full or blocked */
+  }
+}
+
+/**
+ * opts.example   state to start from on a first visit (marked as example)
+ * opts.onRemote  called with nothing when the account copy replaced state
+ * opts.onStatus  called with 'local' | 'syncing' | 'synced' | 'error'
+ */
+export function createStore(key, defaults, { example = null, onRemote, onStatus } = {}) {
+  const k = PREFIX + key;
+  const metaKey = `${k}:meta`;
+  const stored = readLocal(k);
+  let state;
+  let meta = readLocal(metaKey) || { fromExample: false, updatedAt: 0 };
+  if (stored) state = { ...clone(defaults), ...stored };
+  else if (example) {
+    state = { ...clone(defaults), ...clone(example) };
+    meta = { fromExample: true, updatedAt: 0 };
+  } else state = clone(defaults);
+
+  let ref = null;
+  let pending = null;
+  let writing = Promise.resolve();
+  const status = (s) => onStatus && onStatus(s);
+  status('local');
+
+  async function pushRemote() {
+    if (!ref) return;
+    const body = { json: JSON.stringify(state), fromExample: !!meta.fromExample, updatedAt: meta.updatedAt };
+    status('syncing');
+    writing = writing
+      .then(() => ref.set(body))
+      .then(() => status('synced'))
+      .catch(() => status('error'));
+    return writing;
+  }
+
+  function scheduleRemote() {
+    if (!ref) return;
+    clearTimeout(pending);
+    pending = setTimeout(pushRemote, 900);
+  }
+
+  // Connect to the account copy when hosted. Never blocks first paint.
+  (async () => {
+    const [db, user] = await Promise.all([capability('db'), capability('user')]);
+    if (!db || !user) return;
+    let id = null;
+    try {
+      id = await user.id();
+    } catch {
+      id = null;
+    }
+    if (!id) return;
+    try {
+      ref = db.doc(`data/users/${id}/${key}`);
+      const snap = await ref.get();
+      const remote = snap.exists ? snap.data() : null;
+      if (remote && remote.json && (remote.updatedAt || 0) >= (meta.updatedAt || 0)) {
+        state = { ...clone(defaults), ...JSON.parse(remote.json) };
+        meta = { fromExample: !!remote.fromExample, updatedAt: remote.updatedAt || 0 };
+        writeLocal(k, state);
+        writeLocal(metaKey, meta);
+        status('synced');
+        onRemote && onRemote();
+      } else if (meta.updatedAt) {
+        await pushRemote();
+      } else {
+        status('synced');
+      }
+    } catch {
+      ref = null;
+      status('error');
+    }
+  })();
 
   return {
     get state() {
       return state;
     },
-    save() {
-      try {
-        localStorage.setItem(k, JSON.stringify(state));
-      } catch {
-        /* storage full or blocked */
-      }
+    get fromExample() {
+      return !!meta.fromExample;
     },
-    replace(next) {
+    get connected() {
+      return !!ref;
+    },
+    save() {
+      meta.updatedAt = Date.now();
+      writeLocal(k, state);
+      writeLocal(metaKey, meta);
+      scheduleRemote();
+    },
+    replace(next, { fromExample = false } = {}) {
       state = { ...clone(defaults), ...clone(next) };
+      meta.fromExample = fromExample;
       this.save();
     },
     reset() {
       state = clone(defaults);
-      try {
-        localStorage.removeItem(k);
-      } catch {
-        /* ignore */
-      }
+      meta.fromExample = false;
+      this.save();
+    },
+    dismissExample() {
+      meta.fromExample = false;
+      writeLocal(metaKey, meta);
+      scheduleRemote();
     },
   };
 }

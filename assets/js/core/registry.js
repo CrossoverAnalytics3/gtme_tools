@@ -13,6 +13,7 @@ export const ROLES = {
 export const TOOLS = [
   {
     id: 'launch-lift',
+    signal: { name: 'Lift blue', token: 'sig-launch-lift', why: 'Blue reads as signal and go-live. It\'s the launch-day color.' },
     n: 1,
     title: 'Launch Lift Planner',
     role: 'pmm',
@@ -46,6 +47,7 @@ export const TOOLS = [
   },
   {
     id: 'adoption-campaign',
+    signal: { name: 'Adoption green', token: 'sig-adoption-campaign', why: 'Green for growth and habit: users moving from never-tried to active.' },
     n: 2,
     title: 'Adoption Campaign Builder',
     role: 'pmm',
@@ -79,6 +81,7 @@ export const TOOLS = [
   },
   {
     id: 'positioning-lab',
+    signal: { name: 'Variant magenta', token: 'sig-positioning-lab', why: 'A test color. Magenta stays clear of status colors, so a variant never looks like a warning.' },
     n: 3,
     title: 'Positioning Test Lab',
     role: 'pmm',
@@ -112,6 +115,7 @@ export const TOOLS = [
   },
   {
     id: 'inbound-agent',
+    signal: { name: 'Agent teal', token: 'sig-inbound-agent', why: 'Machine-cool teal for the automated workflow the GTME owns.' },
     n: 4,
     title: 'Inbound Qualification Agent',
     role: 'gtme',
@@ -145,6 +149,7 @@ export const TOOLS = [
   },
   {
     id: 'agent-roi',
+    signal: { name: 'Ledger amber', token: 'sig-agent-roi', why: 'The color of money and ledgers: this tool is a business case.' },
     n: 5,
     title: 'Agent Economics Model',
     role: 'gtme',
@@ -178,6 +183,7 @@ export const TOOLS = [
   },
   {
     id: 'win-room',
+    signal: { name: 'Bake-off orange', token: 'sig-win-room', why: 'Competitive heat. Orange signals pressure without reading as a loss.' },
     n: 6,
     title: 'Competitive Win Room',
     role: 'both',
@@ -211,6 +217,7 @@ export const TOOLS = [
   },
   {
     id: 'narrative-library',
+    signal: { name: 'Narrative violet', token: 'sig-narrative-library', why: 'Editorial violet for the approved messaging library.' },
     n: 7,
     title: 'Narrative Product Library',
     role: 'pmm',
@@ -244,6 +251,7 @@ export const TOOLS = [
   },
   {
     id: 'segment-sizer',
+    signal: { name: 'Cohort olive', token: 'sig-segment-sizer', why: 'Earthy olive for markets, populations and territory.' },
     n: 8,
     title: 'Segment Opportunity Sizer',
     role: 'pmm',
@@ -277,6 +285,7 @@ export const TOOLS = [
   },
   {
     id: 'risk-messaging',
+    signal: { name: 'Risk red', token: 'sig-risk-messaging', why: 'Red names the risk buyers are trying to avoid. It\'s the subject of the tool.' },
     n: 9,
     title: 'Risk-First Messaging Studio',
     role: 'both',
@@ -305,6 +314,7 @@ export const TOOLS = [
   },
   {
     id: 'fast-five',
+    signal: { name: 'Interview cyan', token: 'sig-fast-five', why: 'Clear cyan for listening and research.' },
     n: 10,
     title: 'Fast Five Research Kit',
     role: 'pmm',

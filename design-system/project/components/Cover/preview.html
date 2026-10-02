@@ -1,0 +1,54 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Cover</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+  html, body { margin: 0; background: var(--page); }
+  .cover { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--page); }
+  svg { position: absolute; inset: 0; }
+  .ink { fill: var(--ink); }
+  .lift { fill: var(--sig-launch-lift); }
+  .risk { fill: var(--sig-risk-messaging); }
+  .agent { fill: var(--sig-inbound-agent); }
+  .ledger { fill: var(--sig-agent-roi); }
+  .relief { fill: var(--sig-launch-lift-wash); }
+  .grid-dot { fill: var(--page); }
+  .blk { rx: var(--radius-sm); }
+  .text { position: absolute; left: 40px; bottom: 32px; max-width: 440px; }
+  .name { font-family: var(--font-display); font-weight: 750; font-size: 100px; line-height: 0.95; letter-spacing: -0.015em; color: var(--ink); margin: 0; }
+  .tag { font-family: var(--font-body); font-size: 14px; color: var(--ink-3); margin: 16px 0 0; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <!--
+    blocks: ink slab 216x288 (space-7 x 4.5), sig-launch-lift 248x152 bleeding right, sig-risk-messaging 120x128, sig-inbound-agent 120x80, sig-agent-roi 56x40, sig-launch-lift-wash relief 56x40; corners radius-sm
+    arrangement: unequal bands set like the hub's signal strip and the five-bar brand mark, gaps space-2, all right of x = 480
+    pattern: dot grid (precise, technical, mono readouts on a 4px base) at space-6 pitch (6 x 9 = 54 dots), cut out of the ink slab in the page color
+    scales: space-2 gap 8px, space-6 pitch 32px, radius-sm 4px, dots r = 2px (half of space-1)
+  -->
+  <svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true">
+    <rect class="ink blk" x="488" y="0" width="216" height="288"></rect>
+    <g id="dots"></g>
+    <rect class="lift blk" x="712" y="0" width="256" height="152"></rect>
+    <rect class="risk blk" x="712" y="160" width="120" height="128"></rect>
+    <rect class="agent blk" x="840" y="160" width="128" height="80"></rect>
+    <rect class="ledger blk" x="840" y="248" width="56" height="48"></rect>
+    <rect class="relief blk" x="904" y="248" width="64" height="48"></rect>
+  </svg>
+  <div class="text">
+    <p class="name">GTM<br>Toolkit</p>
+    <p class="tag">Ten results from the brief, rebuilt as tools you can run.</p>
+  </div>
+</div>
+<script>
+  var g = document.getElementById('dots'), ns = 'http://www.w3.org/2000/svg';
+  for (var x = 516; x <= 680; x += 32) for (var y = 16; y <= 272; y += 32) {
+    var c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 2); c.setAttribute('class', 'grid-dot');
+    g.appendChild(c);
+  }
+</script>
+</body>
+</html>

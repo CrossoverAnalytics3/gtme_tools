@@ -17,7 +17,33 @@ The brief ends with a metrics table: 10 results like "+31% engagement", "10 SDRs
 | 9 | Buying Motivation Ratio | 80% risk avoidance vs. 20% upside | Enterprise buyer psychology | [Risk-First Messaging Studio](tools/risk-messaging.html) |
 | 10 | Customer Interview Certainty | 97% certainty from 5 interviews | Fast Five research framework | [Fast Five Research Kit](tools/fast-five.html) |
 
-Every tool has a **Load example** button that rebuilds its case from the brief, so you see a filled-in version before you touch your own data. The tests check that each example reproduces the brief's number (the Whoop example really computes +31%, the VR sizing really lands on 24M, and so on).
+Every tool opens on its case from the brief (and has a **Load example** button to get back to it), so you see a filled-in version before you touch your own data. The tests check that each example reproduces the brief's number (the Whoop example really computes +31%, the VR sizing really lands on 24M, and so on).
+
+## Use it now: hosted versions
+
+Every tool is also published as its own page on claude.ai, so you can work in it without cloning anything:
+
+| Page | Link | Signal color |
+| --- | --- | --- |
+| Home (all tools) | https://claude.ai/artifact/B489vXxRZku7dJ5LxcAU9K | |
+| 1. Launch Lift Planner | https://claude.ai/artifact/CfwsciC7jrQ954NH7L5GyF | Lift blue |
+| 2. Adoption Campaign Builder | https://claude.ai/artifact/Qqc7oVr8LqDFhdNEHNvsKN | Adoption green |
+| 3. Positioning Test Lab | https://claude.ai/artifact/Jc57Tdw35gPkBUnfx8Kw42 | Variant magenta |
+| 4. Inbound Qualification Agent | https://claude.ai/artifact/8rWU4q5fWq9gTA1AXCWxtG | Agent teal |
+| 5. Agent Economics Model | https://claude.ai/artifact/CXNnXwupNZmkTBzXhkY2xv | Ledger amber |
+| 6. Competitive Win Room | https://claude.ai/artifact/HCs5wUWns5PoZC87VcU9ko | Bake-off orange |
+| 7. Narrative Product Library | https://claude.ai/artifact/GXWJGXKpXUzkYtXXGvkJ8b | Narrative violet |
+| 8. Segment Opportunity Sizer | https://claude.ai/artifact/WJsch48xXbJzeTFwvn4dvC | Cohort olive |
+| 9. Risk-First Messaging Studio | https://claude.ai/artifact/SscnETXTUfqPmDUppuveJG | Risk red |
+| 10. Fast Five Research Kit | https://claude.ai/artifact/GbvrTDRpR7poSvHmn3dtbP | Interview cyan |
+| Design system | https://claude.ai/artifact/S4Bu3km2eoTYLCwWF7rsSu | |
+
+On the hosted pages:
+
+- Each tool opens on the brief's example, with a banner saying so. Edit it or hit **Start blank**.
+- Your work saves to a private space on your claude.ai account as you type (the `db` capability, under `data/users/<you>/<tool>`), so it follows you across devices. Nobody else can see it, including the page owner. The browser keeps a local copy too.
+- **Save .md**, **Export JSON** and CSV downloads go through claude.ai's download prompt. **Copy** buttons work everywhere.
+- These pages are private until you share them from each page's **Share** menu. People you share with as Viewers can use the tools, but their work saves only in their own browser; give them Contributor access if their work should save to their account.
 
 ## Quick start
 
@@ -27,7 +53,7 @@ You need Node 18 or newer. There are no dependencies to install.
 git clone https://github.com/CrossoverAnalytics3/gtme_tools.git
 cd gtme_tools
 npm start          # http://localhost:4173
-npm test           # 38 tests, node's built-in runner
+npm test           # 41 tests, node's built-in runner
 ```
 
 Opening `index.html` straight from disk won't work: browsers block JavaScript modules on `file://` URLs (the page tells you this if you try). Use `npm start` or the hosted version.
@@ -38,7 +64,7 @@ The repo ships with a GitHub Pages workflow (`.github/workflows/pages.yml`). Tur
 
 ## How the data works
 
-- Everything saves to the browser's localStorage as you type. Nothing leaves the machine.
+- Everything saves as you type: to the browser's localStorage when you run the repo, and to your claude.ai account on the hosted pages. The repo version sends nothing anywhere.
 - **Export JSON / Import JSON** moves a tool's state between people or machines. This is how you share a filled-in battlecard or a narrative library with a teammate.
 - **Copy as Markdown / Download .md** turns the tool's current state into a document (launch brief, business case, readout) you can paste into Notion, Google Docs or Slack.
 - CSV import/export where it matters: inbound leads, routed leads, the deal log, lifecycle sequences for your ESP.
@@ -206,6 +232,21 @@ Each tool works alone, but the outcomes in the brief came from methods stacked t
 
 See [docs/brief-to-tools.md](docs/brief-to-tools.md) for why each tool is shaped the way it is, traced back to the brief.
 
+## Design system
+
+The toolkit has its own design system: an instrument panel for revenue teams. Cool slate neutrals, mono numerals for readouts, hairlines instead of shadows, and **one signal color per tool** chosen for what the tool does (Risk red for the risk messaging studio, Ledger amber for the agent business case, Adoption green for the lifecycle campaign...). All ten signals sit at one OKLCH lightness, spaced around the hue wheel, and clear 5:1 contrast as text in light and dark.
+
+- Hosted, browsable version with live component previews: see the table above.
+- Source in this repo: [`design-system/project/`](design-system/project/): `README.md` (the brand book: voice, color, type, spacing, iconography), `signals.md` (each tool's color and why), `tokens.json` (every token with light and dark values and a usage note), and `components/` (15 components with guidelines, live previews, a `GTMKit` bundle and types).
+- `assets/css/app.css` is the source of truth. The design system's `bundle.css` is a copy of it, and the tests fail if a token in `tokens.json` drifts from the stylesheet.
+- Regenerate the component pages with `python3 design-system/build_components.py`.
+
+## Publishing the hosted versions
+
+`npm run build:hosted` writes one folder per page to `dist/hosted/<page>/`: a content-only `index.html` plus exactly the scripts and styles that page loads, with the claude.ai URLs from [`hosted/links.json`](hosted/links.json) baked into `assets/js/core/links.js` so the tool menu and hub link between hosted pages. Each folder publishes as one artifact; tool pages declare the `db`, `user` and `downloads` capabilities.
+
+The code handles the claude.ai viewer's limits: no `confirm()` (an in-page dialog instead), no plain download links (the `downloads` capability instead), no print button, and the account-backed store in `assets/js/core/store.js`. Outside the viewer, the same code falls back to normal browser behavior.
+
 ## For GTM engineers: the lead agent CLI
 
 The inbound qualification logic runs outside the browser with the same rules, so you can drop it into a webhook handler, a cron job or CI.
@@ -237,8 +278,9 @@ The design follows the brief's description of the GTME role: automate the *legib
 ```
 index.html                 Home: metrics table → tools, plays
 tools/*.html               One page per tool
-assets/css/app.css         Styles (light + dark)
-assets/js/core/            Registry, page shell, DOM helpers, stats, CSV, formatting, storage
+assets/css/app.css         Styles and design tokens (light + dark, per-tool signals)
+assets/js/core/            Registry, page shell, DOM helpers, stats, CSV, formatting,
+                           storage (browser + claude.ai account), links, runtime detection
 assets/js/lib/             Pure logic per tool (no DOM, tested in node)
 assets/js/tools/           UI controller per tool
 assets/js/hub.js           Home page
@@ -247,6 +289,9 @@ examples/                  Sample leads CSV + default agent config
 docs/brief-to-tools.md     How each tool traces back to the brief
 test/                      node --test suites
 serve.js                   Zero-dependency static server for npm start
+design-system/project/     The design system (brand book, tokens, components)
+scripts/build-hosted.js    Builds the claude.ai hosted pages
+hosted/links.json          Published URL for each hosted page
 ```
 
 `assets/js/core/registry.js` is the single source of truth for tool names, outcomes and the feature → benefit → use case rows. The home page, every tool header and the README tables come from it.

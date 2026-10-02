@@ -1,6 +1,8 @@
 // Tiny DOM toolkit. No framework: tools build inputs once, then re-render
 // only their output panels so typing never loses focus.
 
+import { capability, isHosted } from './runtime.js';
+
 export function h(tag, props, ...children) {
   const el = document.createElement(tag);
   if (props) {
@@ -234,7 +236,27 @@ function hideTip() {
 
 // ---------- IO ----------
 
-export function download(filename, text, mime = 'text/plain') {
+/**
+ * Offer a generated file. Hosted on claude.ai this goes through the
+ * `downloads` capability (the viewer confirms the save); elsewhere it is a
+ * normal browser download.
+ */
+export async function download(filename, text, mime = 'text/plain') {
+  if (isHosted()) {
+    const dl = await capability('downloads');
+    if (!dl) {
+      toast('Saving files is off here. Use Copy instead.');
+      return false;
+    }
+    try {
+      await dl.save({ filename, data: text });
+      toast(`Saved ${filename}`);
+      return true;
+    } catch (err) {
+      if (err?.code !== 'declined') toast(`Could not save ${filename} (${err?.code || 'error'})`);
+      return false;
+    }
+  }
   const blob = new Blob([text], { type: `${mime};charset=utf-8` });
   const url = URL.createObjectURL(blob);
   const a = h('a', { href: url, download: filename });
@@ -242,6 +264,38 @@ export function download(filename, text, mime = 'text/plain') {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
+}
+
+/**
+ * In-page confirmation. Browsers' confirm() is blocked inside the claude.ai
+ * viewer, so every destructive action asks here instead.
+ */
+export function ask(message, { confirmLabel = 'Continue', danger = false } = {}) {
+  return new Promise((resolve) => {
+    const prev = document.activeElement;
+    const done = (v) => {
+      backdrop.remove();
+      document.removeEventListener('keydown', onKey);
+      prev?.focus?.();
+      resolve(v);
+    };
+    const onKey = (e) => {
+      if (e.key === 'Escape') done(false);
+    };
+    const yes = button(confirmLabel, () => done(true), danger ? 'danger solid' : 'primary');
+    const backdrop = h(
+      'div',
+      { class: 'ask-backdrop', onClick: (e) => { if (e.target === backdrop) done(false); } },
+      h('div', { class: 'ask', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Confirm' },
+        h('p', null, message),
+        h('div', { class: 'row' }, button('Cancel', () => done(false), 'ghost'), yes),
+      ),
+    );
+    document.addEventListener('keydown', onKey);
+    document.body.append(backdrop);
+    yes.focus();
+  });
 }
 
 export async function copyText(text, msg = 'Copied to clipboard') {

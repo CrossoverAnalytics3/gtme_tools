@@ -1,9 +1,12 @@
-// Page chrome shared by every tool: top bar, hero with the source metric,
-// the feature -> benefit -> use case table, the data toolbar and footer.
+// Page chrome shared by every tool: top bar with the tool menu, the tool
+// header (signal color, source metric), the feature -> benefit -> use case
+// table, the data toolbar, the example banner and the footer.
 
 import { TOOLS, ROLES, getTool } from './registry.js';
-import { h, clear, button, download, copyText, pickFile, toast, table } from './dom.js';
+import { h, clear, button, download, copyText, pickFile, toast, table, ask } from './dom.js';
 import { createStore, clone } from './store.js';
+import { hubHref, toolHref, designSystemHref } from './links.js';
+import { isHosted } from './runtime.js';
 
 const THEMES = ['auto', 'light', 'dark'];
 
@@ -28,31 +31,48 @@ function setTheme(t) {
   }
 }
 
-export function topbar({ base = '..', currentId = null } = {}) {
-  let theme = applySavedTheme();
-  const themeBtn = button(`Theme: ${theme}`, () => {
-    theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
-    setTheme(theme);
-    themeBtn.textContent = `Theme: ${theme}`;
-  }, 'ghost sm', { 'aria-label': 'Toggle color theme' });
+/** Five-bar brand mark in the tools' signal colors. */
+export function brandMark() {
+  const ids = ['launch-lift', 'adoption-campaign', 'inbound-agent', 'win-room', 'risk-messaging'];
+  return h('span', { class: 'brand-mark', 'aria-hidden': 'true' }, ids.map((id) => h('i', { style: `--c: var(--sig-${id})` })));
+}
 
-  const nav = h(
-    'select',
-    {
-      'aria-label': 'Jump to tool',
-      onChange: (e) => {
-        if (e.target.value) location.href = e.target.value;
-      },
-    },
-    h('option', { value: `${base}/index.html` }, 'All tools'),
-    TOOLS.map((t) => h('option', { value: `${base}/tools/${t.id}.html` }, `${t.n}. ${t.title}`)),
+export function topbar({ base = '..', currentId = null } = {}) {
+  // The claude.ai viewer applies its own theme, so the toggle only shows elsewhere.
+  let theme = isHosted() ? 'auto' : applySavedTheme();
+  const themeBtn = isHosted()
+    ? null
+    : button(`Theme: ${theme}`, () => {
+        theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+        setTheme(theme);
+        themeBtn.textContent = `Theme: ${theme}`;
+      }, 'ghost sm', { 'aria-label': 'Toggle color theme' });
+
+  const current = currentId ? getTool(currentId) : null;
+  const menu = h(
+    'details',
+    { class: 'menu' },
+    h('summary', null, current ? `${current.n}. ${current.title}` : 'All tools'),
+    h(
+      'nav',
+      { class: 'menu-panel', 'aria-label': 'Tools' },
+      h('a', { href: hubHref(base) }, h('span', { class: 'dot', style: '--c: var(--ink)' }), 'All tools'),
+      h('div', { class: 'sep' }),
+      TOOLS.map((t) =>
+        h('a', { href: toolHref(t.id, base), 'aria-current': t.id === currentId ? 'page' : null }, h('span', { class: 'dot', style: `--c: var(--sig-${t.id})` }), `${t.n}. ${t.title}`),
+      ),
+      h('div', { class: 'sep' }),
+      h('a', { href: designSystemHref(base) }, h('span', { class: 'dot', style: '--c: var(--line-2)' }), 'Design system'),
+    ),
   );
-  nav.value = currentId ? `${base}/tools/${currentId}.html` : `${base}/index.html`;
+  document.addEventListener('click', (e) => {
+    if (menu.open && !menu.contains(e.target)) menu.open = false;
+  });
 
   return h(
     'header',
     { class: 'topbar' },
-    h('div', { class: 'topbar-inner' }, h('a', { class: 'brand', href: `${base}/index.html` }, 'GTM', h('span', null, '/'), 'Toolkit'), h('div', { class: 'spacer' }), nav, themeBtn),
+    h('div', { class: 'topbar-inner' }, h('a', { class: 'brand', href: hubHref(base), 'aria-label': 'GTM Toolkit home' }, brandMark(), h('span', { class: 'brand-text' }, 'GTM Toolkit')), h('div', { class: 'spacer' }), menu, themeBtn),
   );
 }
 
@@ -60,7 +80,7 @@ export function footer() {
   return h(
     'footer',
     { class: 'site' },
-    h('p', null, 'Your data stays in this browser (localStorage). Export JSON to share or back up.'),
+    h('p', null, isHosted() ? 'Your work saves to your claude.ai account as you type, privately. Export JSON to share it.' : 'Your work saves in this browser as you type. Export JSON to share or back it up.'),
     h('p', null, 'Example data reconstructs the brief\'s case studies for illustration. It is not company data.'),
   );
 }
@@ -69,17 +89,21 @@ function hero(tool) {
   return h(
     'section',
     { class: 'hero' },
-    h('div', { class: 'kicker' }, `Tool ${tool.n} of ${TOOLS.length} · ${ROLES[tool.role]}`),
+    h('div', { class: 'kicker' }, h('span', { class: 'num' }, String(tool.n).padStart(2, '0')), `${ROLES[tool.role]} · ${tool.signal.name}`),
     h('h1', null, tool.title),
     h('p', { class: 'lede' }, tool.summary),
     h(
       'div',
-      { class: 'metric-badge' },
-      h('span', null, tool.metric),
-      h('strong', null, tool.outcome),
-      h('span', { class: 'muted' }, tool.source),
+      { class: 'readout' },
+      h('span', { class: 'r-label' }, 'Outcome'),
+      h('span', { class: 'r-value big' }, tool.outcome),
+      h('span', { class: 'r-label' }, 'Metric'),
+      h('span', { class: 'r-value' }, tool.metric),
+      h('span', { class: 'r-label' }, 'Source'),
+      h('span', { class: 'r-value muted' }, tool.source),
+      h('span', { class: 'r-label' }, 'Method'),
+      h('span', { class: 'r-value muted' }, tool.framework),
     ),
-    h('p', { class: 'small muted' }, h('strong', null, 'Framework: '), tool.framework),
   );
 }
 
@@ -101,72 +125,111 @@ function explainer(tool) {
   return d;
 }
 
+const SYNC_LABEL = {
+  local: 'Saved in this browser',
+  syncing: 'Saving to your account…',
+  synced: 'Saved to your account',
+  error: 'Saved in this browser only',
+};
+
 /**
  * Mount a tool page.
- * opts.defaults   initial state
- * opts.example    example state (from the brief's case)
+ * opts.defaults   blank state
+ * opts.example    the brief's case; a first visit opens on it
  * opts.render     (app, ctx) => void, builds the tool UI
  * opts.markdown   optional (state) => string, export as a document
  */
 export function mountTool(id, { defaults, example, render, markdown }) {
   const tool = getTool(id);
-  const store = createStore(id, defaults);
-  document.title = `${tool.title} · GTM Toolkit`;
+  document.documentElement.setAttribute('data-tool', id);
+  document.title = tool.title;
 
   const app = h('div', { id: 'app' });
+  const banner = h('div');
+  const sync = h('span', { class: 'sync', role: 'status' }, '');
+  const store = createStore(id, defaults, {
+    example,
+    onRemote: () => draw(),
+    onStatus: (s) => {
+      sync.textContent = isHosted() || s !== 'local' ? SYNC_LABEL[s] : SYNC_LABEL.local;
+    },
+  });
+
   const ctx = {
     store,
     get state() {
       return store.state;
     },
-    save: () => store.save(),
+    save: () => {
+      store.save();
+      drawBanner();
+    },
     rerender: () => draw(),
   };
 
+  function drawBanner() {
+    clear(banner);
+    if (!store.fromExample) return;
+    banner.append(
+      h(
+        'div',
+        { class: 'banner', role: 'note' },
+        h('span', { class: 'grow' }, h('strong', null, 'You\'re looking at the example from the brief. '), 'Edit anything to make it yours, or clear it and start from blank.'),
+        button('Start blank', async () => {
+          if (!(await ask('Clear the example and start from a blank page?', { confirmLabel: 'Start blank' }))) return;
+          store.reset();
+          draw();
+        }, 'sm primary'),
+        button('Keep the example', () => {
+          store.dismissExample();
+          drawBanner();
+        }, 'sm ghost'),
+      ),
+    );
+  }
+
   function draw() {
     clear(app);
+    drawBanner();
     render(app, ctx);
   }
 
-  const tools = [
+  const actions = [
     example
-      ? button('Load example', () => {
-          if (!confirm('Replace what is on this page with the example from the brief?')) return;
-          store.replace(clone(example));
+      ? button('Load example', async () => {
+          if (!(await ask('Replace what is on this page with the example from the brief?', { confirmLabel: 'Load example' }))) return;
+          store.replace(clone(example), { fromExample: true });
           draw();
           toast('Example loaded');
-        }, 'primary')
+        })
       : null,
-    button('Reset', () => {
-      if (!confirm('Clear everything on this page?')) return;
+    button('Reset', async () => {
+      if (!(await ask('Clear everything on this page? This can\'t be undone.', { confirmLabel: 'Clear page', danger: true }))) return;
       store.reset();
       draw();
     }),
+    sync,
     h('div', { class: 'spacer' }),
-    markdown
-      ? button('Copy as Markdown', () => copyText(markdown(store.state), 'Markdown copied'))
-      : null,
-    markdown
-      ? button('Download .md', () => download(`${id}.md`, markdown(store.state), 'text/markdown'))
-      : null,
+    markdown ? button('Copy as Markdown', () => copyText(markdown(store.state), 'Markdown copied')) : null,
+    markdown ? button('Save .md', () => download(`${id}.md`, markdown(store.state), 'text/markdown')) : null,
     button('Export JSON', () => download(`${id}.json`, JSON.stringify({ tool: id, version: 1, data: store.state }, null, 2), 'application/json')),
     button('Import JSON', async () => {
       const f = await pickFile('.json');
       if (!f) return;
       try {
         const parsed = JSON.parse(f.text);
-        if (parsed.tool && parsed.tool !== id) throw new Error(`That file is for "${parsed.tool}"`);
+        if (parsed.tool && parsed.tool !== id) throw new Error(`that file is for "${parsed.tool}"`);
         store.replace(parsed.data ?? parsed);
         draw();
         toast('Imported');
       } catch (err) {
-        alert(`Could not import: ${err.message}`);
+        toast(`Could not import: ${err.message}`);
       }
     }),
-    button('Print', () => window.print(), 'ghost'),
+    isHosted() ? null : button('Print', () => window.print(), 'ghost'),
   ];
 
-  const main = h('main', { class: 'wrap' }, hero(tool), explainer(tool), h('div', { class: 'toolbar' }, tools), app);
+  const main = h('main', { class: 'wrap' }, hero(tool), explainer(tool), h('div', { class: 'toolbar' }, actions), banner, app);
   document.body.prepend(topbar({ base: '..', currentId: id }));
   document.body.append(main, footer());
   draw();

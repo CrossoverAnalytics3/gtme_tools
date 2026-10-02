@@ -1,0 +1,72 @@
+{
+ "risk-messaging": {
+  "hue": 15,
+  "light": "#a73447",
+  "dark": "#fe949d",
+  "washLight": "#ffebeb",
+  "washDark": "#391d1f"
+ },
+ "win-room": {
+  "hue": 50,
+  "light": "#9c4700",
+  "dark": "#fa9d68",
+  "washLight": "#feece2",
+  "washDark": "#381f11"
+ },
+ "agent-roi": {
+  "hue": 85,
+  "light": "#7e5e01",
+  "dark": "#ddb049",
+  "washLight": "#f9efda",
+  "washDark": "#302409"
+ },
+ "segment-sizer": {
+  "hue": 120,
+  "light": "#5b6c02",
+  "dark": "#adc35e",
+  "washLight": "#edf4dd",
+  "washDark": "#242a0f"
+ },
+ "adoption-campaign": {
+  "hue": 155,
+  "light": "#057743",
+  "dark": "#6cd092",
+  "washLight": "#e1f7e7",
+  "washDark": "#122d1d"
+ },
+ "inbound-agent": {
+  "hue": 190,
+  "light": "#02736e",
+  "dark": "#21d1ca",
+  "washLight": "#daf7f4",
+  "washDark": "#022d2b"
+ },
+ "fast-five": {
+  "hue": 225,
+  "light": "#036e8b",
+  "dark": "#41c8f6",
+  "washLight": "#ddf5ff",
+  "washDark": "#072b37"
+ },
+ "launch-lift": {
+  "hue": 260,
+  "light": "#2a5fb7",
+  "dark": "#8eb8fe",
+  "washLight": "#e8f1fe",
+  "washDark": "#19263c"
+ },
+ "narrative-library": {
+  "hue": 295,
+  "light": "#6b4cae",
+  "dark": "#bda7fe",
+  "washLight": "#f1eefe",
+  "washDark": "#28223a"
+ },
+ "positioning-lab": {
+  "hue": 330,
+  "light": "#903d8b",
+  "dark": "#e698df",
+  "washLight": "#fce9fa",
+  "washDark": "#331e31"
+ }
+}

@@ -45,3 +45,30 @@ test('no em dashes anywhere in the repo copy', () => {
   const offenders = walk(root).filter((p) => readFileSync(p, 'utf8').includes(String.fromCharCode(0x2014)));
   assert.deepEqual(offenders, []);
 });
+
+test('hosted links cover the hub, every tool and the design system', () => {
+  const links = JSON.parse(readFileSync(join(root, 'hosted/links.json'), 'utf8'));
+  for (const key of ['hub', 'designSystem', ...TOOLS.map((t) => t.id)]) {
+    assert.match(links[key] || '', /^https:\/\/claude\.ai\/artifact\/[A-Za-z0-9]+$/, `missing hosted link for ${key}`);
+  }
+});
+
+test('design system tokens match the app stylesheet', () => {
+  const css = readFileSync(join(root, 'assets/css/app.css'), 'utf8');
+  const tokens = JSON.parse(readFileSync(join(root, 'design-system/project/tokens.json'), 'utf8'));
+  const lightRoot = css.slice(css.indexOf(':root {'), css.indexOf('}', css.indexOf(':root {')));
+  const sigRoot = css.slice(css.indexOf('/* ---------- Tool signal colors'));
+  for (const t of tokens.color.tokens) {
+    const src = t.name.startsWith('sig-') ? sigRoot : lightRoot;
+    assert.ok(src.includes(`--${t.name}: ${t.value.light};`), `${t.name} light value ${t.value.light} is not in app.css`);
+    assert.ok(css.includes(`--${t.name}: ${t.value.dark};`), `${t.name} dark value ${t.value.dark} is not in app.css`);
+  }
+  for (const t of TOOLS) {
+    assert.ok(tokens.color.tokens.some((x) => x.name === t.signal.token), `no token for ${t.signal.token}`);
+    assert.ok(css.includes(`:root[data-tool="${t.id}"]`), `no signal binding for ${t.id}`);
+  }
+});
+
+test('design system bundle.css is the app stylesheet', () => {
+  assert.equal(readFileSync(join(root, 'design-system/project/components/bundle.css'), 'utf8'), readFileSync(join(root, 'assets/css/app.css'), 'utf8'));
+});

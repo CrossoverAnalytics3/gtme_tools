@@ -1,0 +1,13 @@
+<!-- @dsCard group="Data display" height=80 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Pill preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.className = 'row';
+  root.append(K.Pill({ text: 'AE fast-track', tone: 'good' }), K.Pill({ text: 'SDR QA review', tone: 'warn' }), K.Pill({ text: 'Disqualify', tone: 'bad' }), K.Pill({ text: 'Nurture', tone: 'info' }), K.Pill({ text: 'Product marketing' }));
+</script>
+</body>
+</html>

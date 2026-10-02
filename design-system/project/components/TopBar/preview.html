@@ -1,0 +1,17 @@
+<!-- @dsCard group="Navigation" height=300 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>TopBar preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.style.minHeight = '280px';
+  var tools = [['launch-lift','Launch Lift Planner'],['adoption-campaign','Adoption Campaign Builder'],['inbound-agent','Inbound Qualification Agent'],['win-room','Competitive Win Room'],['risk-messaging','Risk-First Messaging Studio']].map(function (t, i) { return { id: t[0], n: i + 1, title: t[1] }; });
+  var bar = K.TopBar({ tools: tools, current: 'win-room' });
+  bar.style.position = 'static';
+  root.append(bar);
+  bar.querySelector('details').open = true;
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 import { mountTool } from '../core/shell.js';
-import { h, field, textInput, textArea, numberInput, percentInput, dateInput, select, checkbox, button, stat, pill, callout, table, replaceChildren, tabs, hbars, copyText, download, pickFile, uid, toast } from '../core/dom.js';
+import { h, field, textInput, textArea, numberInput, percentInput, dateInput, select, checkbox, button, stat, pill, callout, table, replaceChildren, tabs, hbars, copyText, download, pickFile, uid, toast, ask } from '../core/dom.js';
 import { money, pct, num, todayISO, toBool, toNumber } from '../core/format.js';
 import { parseCSVObjects, toCSV } from '../core/csv.js';
 import { OUTCOMES, LOSS_REASONS, EVIDENCE, DEFAULT_DEALBOT_RULES, winRates, lostbotSummary, dealbotAlerts, battlecardMarkdown, simulationPrompt } from '../lib/winloss.js';
@@ -271,7 +271,7 @@ function renderCards(panel, ctx) {
           h('div', { class: 'row' },
             button('Copy Markdown', () => copyText(battlecardMarkdown(card)), 'sm'),
             button('Copy buyer simulation prompt', () => copyText(simulationPrompt(card, s.persona), 'Prompt copied. Paste it into any LLM.'), 'sm'),
-            button('Delete', () => { if (confirm('Delete this battlecard?')) { s.cards.splice(i, 1); ctx.save(); ctx.rerender(); } }, 'ghost sm danger'),
+            button('Delete', async () => { if (await ask(`Delete the battlecard for ${card.competitor || 'this competitor'}?`, { confirmLabel: 'Delete', danger: true })) { s.cards.splice(i, 1); ctx.save(); ctx.rerender(); } }, 'ghost sm danger'),
           ),
         ),
         h('div', { class: 'grid grid-2' },

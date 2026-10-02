@@ -1,6 +1,7 @@
 import { TOOLS, ROLES, getTool } from './core/registry.js';
 import { topbar, footer } from './core/shell.js';
 import { h, replaceChildren, button } from './core/dom.js';
+import { toolHref, designSystemHref } from './core/links.js';
 
 const PLAYS = [
   {
@@ -13,7 +14,7 @@ const PLAYS = [
     title: 'Fix a slipping win rate',
     when: 'Sellers say you lose on price. You suspect that\'s not the whole story.',
     steps: ['win-room', 'fast-five', 'narrative-library', 'positioning-lab'],
-    notes: ['Lostbot audit on lost deals', 'Interview 5 lost buyers', 'Publish approved counter-narrative', 'Test the new angle before rollout'],
+    notes: ['Lostbot audit on lost deals', 'Interview 5 lost buyers', 'Publish the approved counter-narrative', 'Test the new angle before rollout'],
   },
   {
     title: 'Stand up a GTM engineering function',
@@ -23,13 +24,14 @@ const PLAYS = [
   },
   {
     title: 'Grow net revenue retention',
-    when: 'New logo growth is slowing and the board is asking about expansion.',
+    when: 'New-logo growth is slowing and the board is asking about expansion.',
     steps: ['narrative-library', 'adoption-campaign', 'risk-messaging'],
     notes: ['Model NRR levers, fill coverage gaps', 'Drive adoption of sticky features', 'Arm CS with risk-first renewal talk tracks'],
   },
 ];
 
 let role = 'all';
+const sig = (id) => `--c: var(--sig-${id}); --accent: var(--sig-${id})`;
 
 function render() {
   const grid = h('div', { class: 'grid grid-3' });
@@ -37,48 +39,54 @@ function render() {
     replaceChildren(
       grid,
       TOOLS.filter((t) => role === 'all' || t.role === role || t.role === 'both').map((t) =>
-        h('a', { class: 'card tool-card', href: `tools/${t.id}.html` },
-          h('div', { class: 'num' }, `TOOL ${t.n}`),
+        h('a', { class: 'card tool-card', href: toolHref(t.id, '.'), style: sig(t.id) },
+          h('div', { class: 'top' }, h('span', { class: 'num' }, `TOOL ${String(t.n).padStart(2, '0')}`), h('span', { class: 'dot' })),
           h('h3', null, t.title),
           h('div', { class: 'outcome' }, t.outcome),
           h('p', null, t.summary),
-          h('div', { class: 'role row' }, h('span', { class: 'pill' }, ROLES[t.role]), h('span', { class: 'small muted' }, `${t.features.length} features`)),
+          h('div', { class: 'role row' }, h('span', { class: 'pill' }, ROLES[t.role]), h('span', { class: 'small muted' }, `${t.features.length} features · ${t.signal.name}`)),
         ),
       ),
     );
   };
-  const filters = h('div', { class: 'row' },
+  const filters = h('div', { class: 'row', role: 'group', 'aria-label': 'Filter by role' },
     ['all', 'pmm', 'gtme'].map((r) =>
       button(r === 'all' ? 'All tools' : ROLES[r], (e) => {
         role = r;
-        for (const b of filters.children) b.classList.toggle('primary', b === e.currentTarget);
+        for (const b of filters.children) {
+          b.classList.toggle('primary', b === e.currentTarget);
+          b.setAttribute('aria-pressed', String(b === e.currentTarget));
+        }
         drawGrid();
-      }, r === role ? 'sm primary' : 'sm'),
+      }, r === role ? 'sm primary' : 'sm', { 'aria-pressed': String(r === role) }),
     ),
   );
 
   const main = h('main', { class: 'wrap' },
-    h('section', { class: 'hero' },
+    h('section', { class: 'hub-hero' },
+      h('div', { class: 'signal-strip', 'aria-hidden': 'true' }, TOOLS.map((t) => h('i', { style: `--c: var(--sig-${t.id})` }))),
       h('div', { class: 'kicker' }, 'From executive brief to working tools'),
-      h('h1', null, 'GTM Toolkit for PMMs and GTM engineers'),
-      h('p', { class: 'lede' }, 'The brief\'s metrics table lists 10 results: +31% engagement, 10 SDRs down to 1, NRR from 107% to 120%, and more. Each tool here takes one result and turns the method behind it into something you can run on your own numbers.'),
+      h('h1', null, 'Ten results from the brief, rebuilt as tools you can run'),
+      h('p', { class: 'lede', style: { maxWidth: '68ch', color: 'var(--ink-2)', fontSize: '1.05rem', margin: 0 } },
+        'The brief\'s metrics table lists what worked: +31% engagement, 10 SDRs down to 1, NRR from 107% to 120%. Each tool takes one of those results and gives you the method behind it, with the brief\'s case loaded so you can see it working before you add your own numbers.'),
       h('div', { class: 'row' },
         h('a', { class: 'btn primary', href: '#tools' }, 'Browse the tools'),
-        h('a', { class: 'btn', href: '#plays' }, 'See how they chain together'),
+        h('a', { class: 'btn', href: '#plays' }, 'See how they chain'),
+        h('a', { class: 'btn ghost', href: designSystemHref('.') }, 'Design system'),
       ),
     ),
 
     h('div', { class: 'section-title' }, h('h2', null, 'The metrics table, as tools')),
     h('div', { class: 'table-wrap' },
       h('table', null,
-        h('thead', null, h('tr', null, ['Metric / objective', 'Value / outcome', 'Source context', 'Tool'].map((x) => h('th', null, x)))),
+        h('thead', null, h('tr', null, ['Metric / objective', 'Outcome', 'Source context', 'Tool'].map((x) => h('th', null, x)))),
         h('tbody', null,
           TOOLS.map((t) =>
-            h('tr', null,
+            h('tr', { style: sig(t.id) },
               h('td', null, t.metric),
-              h('td', null, h('strong', null, t.outcome)),
+              h('td', null, h('strong', { class: 'mono', style: { color: 'var(--accent)' } }, t.outcome)),
               h('td', { class: 'muted' }, t.source),
-              h('td', null, h('a', { href: `tools/${t.id}.html` }, `${t.n}. ${t.title}`)),
+              h('td', null, h('a', { href: toolHref(t.id, '.'), class: 'row', style: { gap: '8px', flexWrap: 'nowrap' } }, h('span', { class: 'dot' }), `${t.title}`)),
             ),
           ),
         ),
@@ -98,7 +106,7 @@ function render() {
           h('ol', { class: 'list-tight' },
             p.steps.map((id, i) => {
               const t = getTool(id);
-              return h('li', null, h('a', { href: `tools/${id}.html` }, t.title), h('span', { class: 'muted' }, `: ${p.notes[i]}`));
+              return h('li', { style: sig(id) }, h('a', { href: toolHref(id, '.') }, t.title), h('span', { class: 'muted' }, `: ${p.notes[i]}`));
             }),
           ),
         ),
@@ -107,9 +115,9 @@ function render() {
 
     h('div', { class: 'section-title' }, h('h2', null, 'How it works')),
     h('div', { class: 'grid grid-3' },
-      h('div', { class: 'card' }, h('h3', null, 'Your data stays local'), h('p', { class: 'small' }, 'Everything saves to this browser as you type. Nothing is sent anywhere. Export JSON to back up, share with a teammate, or move between machines.')),
-      h('div', { class: 'card' }, h('h3', null, 'Start from an example'), h('p', { class: 'small' }, 'Every tool has a "Load example" button that rebuilds the brief\'s case (Whoop, Etsy, Vercel, Asana...) so you can see a filled-in version first. The examples are illustrative, not company data.')),
-      h('div', { class: 'card' }, h('h3', null, 'Built for GTMEs too'), h('p', { class: 'small' }, 'The logic lives in plain JS modules with tests. The lead agent runs from the command line: ', h('code', null, 'npm run qualify -- leads.csv'), '.')),
+      h('div', { class: 'card' }, h('h3', null, 'Opens on the brief\'s case'), h('p', { class: 'small' }, 'Every tool starts with the brief\'s example loaded (Whoop, Etsy, Vercel, Asana and the rest) and a banner saying so. Edit it, or start blank. The examples are illustrative, not company data.')),
+      h('div', { class: 'card' }, h('h3', null, 'Your work is saved'), h('p', { class: 'small' }, 'Changes save as you type. On claude.ai they go to a private space on your account, so they follow you between devices. Export JSON to hand a filled-in tool to a teammate.')),
+      h('div', { class: 'card' }, h('h3', null, 'Built for GTMEs too'), h('p', { class: 'small' }, 'The logic lives in plain, tested JS modules in the repo. The lead agent also runs from the command line: ', h('code', null, 'npm run qualify -- leads.csv'), '.')),
     ),
   );
 

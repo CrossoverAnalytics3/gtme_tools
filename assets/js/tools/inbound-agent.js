@@ -1,5 +1,5 @@
 import { mountTool } from '../core/shell.js';
-import { h, field, textInput, textArea, numberInput, percentInput, select, button, stat, pill, callout, table, replaceChildren, tabs, download, copyText, pickFile, hbars, debounce, toast } from '../core/dom.js';
+import { h, field, textInput, textArea, numberInput, percentInput, select, button, stat, pill, callout, table, replaceChildren, tabs, download, copyText, pickFile, hbars, debounce, toast, ask } from '../core/dom.js';
 import { num, pct, splitList } from '../core/format.js';
 import { parseCSVObjects, toCSV } from '../core/csv.js';
 import { clone } from '../core/store.js';
@@ -15,7 +15,7 @@ const defaults = {
 
 async function sampleCSV() {
   try {
-    const res = await fetch('../examples/leads.csv');
+    const res = await fetch(new URL('../../../examples/leads.csv', import.meta.url));
     if (res.ok) return await res.text();
   } catch {
     /* offline */
@@ -171,7 +171,7 @@ function renderRules(panel, ctx) {
         field('Gray band (points)', n(c.thresholds, 'grayBand'), 'Leads this close to a threshold go to a human.'),
         field('Intent floor', n(c.thresholds, 'minIntent'), 'Below this, even a perfect fit goes to nurture.'),
         h('div', { class: 'row' },
-          button('Restore default rules', () => { if (confirm('Replace your rules with the defaults?')) { ctx.state.config = clone(DEFAULT_CONFIG); ctx.save(); ctx.rerender(); } }, 'sm'),
+          button('Restore default rules', async () => { if (await ask('Replace your rules with the defaults?', { confirmLabel: 'Restore defaults' })) { ctx.state.config = clone(DEFAULT_CONFIG); ctx.save(); ctx.rerender(); } }, 'sm'),
           button('Download config.json', () => download('lead-agent.config.json', JSON.stringify(c, null, 2), 'application/json'), 'sm'),
         ),
       ),

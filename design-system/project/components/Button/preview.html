@@ -1,0 +1,20 @@
+<!-- @dsCard group="Actions" height=120 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Button preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.className = 'row';
+  root.append(
+    K.Button({ label: 'Load example', variant: 'primary' }),
+    K.Button({ label: 'Export JSON' }),
+    K.Button({ label: 'Print', variant: 'ghost' }),
+    K.Button({ label: 'Clear page', variant: 'danger' }),
+    K.Button({ label: '+ Add deal', size: 'sm', variant: 'primary' }),
+    K.Button({ label: 'Copy', size: 'sm' })
+  );
+</script>
+</body>
+</html>

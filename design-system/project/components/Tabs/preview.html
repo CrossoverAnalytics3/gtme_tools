@@ -1,0 +1,17 @@
+<!-- @dsCard group="Navigation" height=150 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tabs preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" data-tool="inbound-agent" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.append(K.Tabs({ items: [
+    { id: 'a', label: '1. Route leads', render: function (p) { p.append(K.Callout({ body: 'Paste a CSV of inbound leads to see how the agent routes each one.' })); } },
+    { id: 'b', label: '2. Rules', render: function (p) { p.textContent = 'Rules'; } },
+    { id: 'c', label: '3. Agent prompt', render: function (p) { p.textContent = 'Prompt'; } },
+    { id: 'd', label: '4. SDR capacity', render: function (p) { p.textContent = 'Capacity'; } }
+  ] }));
+</script>
+</body>
+</html>

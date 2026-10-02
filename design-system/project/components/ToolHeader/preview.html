@@ -1,0 +1,14 @@
+<!-- @dsCard group="Layout" height=300 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>ToolHeader preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" data-tool="agent-roi" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.append(K.ToolHeader({ n: 5, role: 'GTM engineering', signalName: 'Ledger amber', title: 'Agent Economics Model',
+    summary: 'Model what an agent really costs to run per lead and per year, what it saves, and what the freed-up SDRs can produce.',
+    outcome: '~$1,000 per year in compute cost', metric: 'Inbound Agent Operating Cost', source: 'Vercel AI Cloud infrastructure', method: 'Unit economics of an AI agent vs. headcount, plus redeployment upside' }));
+</script>
+</body>
+</html>

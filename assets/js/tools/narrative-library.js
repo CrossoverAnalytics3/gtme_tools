@@ -1,5 +1,5 @@
 import { mountTool } from '../core/shell.js';
-import { h, field, textInput, textArea, numberInput, percentInput, dateInput, select, checkbox, button, stat, pill, callout, table, replaceChildren, tabs, copyText, uid, hbars } from '../core/dom.js';
+import { h, field, textInput, textArea, numberInput, percentInput, dateInput, select, checkbox, button, stat, pill, callout, table, replaceChildren, tabs, copyText, uid, hbars, ask } from '../core/dom.js';
 import { money, pct, todayISO, splitList, compact } from '../core/format.js';
 import { BLOCK_TYPES, MOMENTS, STATUSES, isStale, compose, coverage, nrr, expansionNeeded, nrrDollars, libraryMarkdown } from '../lib/narrative.js';
 
@@ -155,7 +155,7 @@ function blockEditor(b, ctx, today, redraw) {
         field('Last reviewed', dateInput(b.reviewedOn, set('reviewedOn'))),
         h('div', { class: 'row', style: { alignItems: 'end' } },
           button('Reviewed today (+1 version)', () => { b.reviewedOn = todayISO(); b.version = (b.version || 1) + 1; ctx.save(); redraw(); }, 'sm'),
-          button('Delete', () => { if (confirm('Delete this block?')) { s.blocks.splice(s.blocks.indexOf(b), 1); ctx.save(); redraw(); } }, 'ghost sm danger'),
+          button('Delete', async () => { if (await ask(`Delete "${b.title || 'untitled block'}"?`, { confirmLabel: 'Delete', danger: true })) { s.blocks.splice(s.blocks.indexOf(b), 1); ctx.save(); redraw(); } }, 'ghost sm danger'),
         ),
       ),
     ),

@@ -1,0 +1,18 @@
+<!-- @dsCard group="Data display" height=120 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>StatTile preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" data-tool="agent-roi" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.className = 'grid grid-4';
+  root.append(
+    K.StatTile({ label: 'Compute / year', value: '$1,080', sub: '$0.0300 per lead', key: true }),
+    K.StatTile({ label: 'Inbound cost before', value: '$950K', sub: '$26.39 per lead' }),
+    K.StatTile({ label: 'Inbound cost after', value: '$151K', sub: '$4.20 per lead' }),
+    K.StatTile({ label: 'Payback on the build', value: '0.4 mo', sub: 'build \u2248 $25,385' })
+  );
+</script>
+</body>
+</html>

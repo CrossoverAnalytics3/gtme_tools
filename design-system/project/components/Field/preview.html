@@ -1,0 +1,18 @@
+<!-- @dsCard group="Inputs" height=230 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Field preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.className = 'grid grid-2';
+  root.append(
+    K.Field({ id: 'f1', label: 'Inbound leads / month', kind: 'number', value: 3000 }),
+    K.Field({ id: 'f2', label: 'Price per 1M input tokens ($)', kind: 'number', value: 3, help: 'Use your provider\'s current list price.' }),
+    K.Field({ id: 'f3', label: 'Goal type', kind: 'select', options: ['Drive new feature adoption', 'Re-engage churned users'] }),
+    K.Field({ id: 'f4', label: 'Their pain today', kind: 'textarea', placeholder: 'What they do now, and what it costs them.' })
+  );
+</script>
+</body>
+</html>

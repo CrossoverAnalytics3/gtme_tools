@@ -1,0 +1,13 @@
+<!-- @dsCard group="Data display" height=200 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>DataTable preview</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"></head>
+<body>
+<div id="root" data-tool="positioning-lab" style="padding:16px;background:var(--page);"></div>
+<script>
+  var K = window.GTMKit, root = document.getElementById('root');
+  root.append(K.DataTable({ columns: [{ label: 'Variant', key: 'v' }, { label: 'Conv. rate', key: 'r', num: true }, { label: 'Lift', key: 'l', num: true }, { label: 'p-value', key: 'p', num: true }],
+    rows: [{ v: 'Control: unisex athletic', r: '3%', l: 'control', p: '-' }, { v: 'B: feminine graphic tees', r: '4.5%', l: '+50%', p: 'p < 0.001' }, { v: 'C: retro lifestyle', r: '3.3%', l: '+10%', p: 'p = 0.442' }] }));
+</script>
+</body>
+</html>
