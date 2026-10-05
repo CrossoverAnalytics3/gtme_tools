@@ -85,12 +85,13 @@
 
   /** The tool's name, number, signal and the brief outcome it reproduces. */
   function ToolHeader(p) {
-    var rows = [['Outcome', p.outcome, 'big'], ['Metric', p.metric], ['Source', p.source, 'muted'], ['Method', p.method, 'muted']].filter(function (r) { return r[1]; });
+    var rows = [['Reported', p.outcome, 'big'], ['Metric', p.metric], ['Source', p.source, 'muted'], ['Method', p.method, 'muted']].filter(function (r) { return r[1]; });
     return h('section', { class: 'hero' },
       h('div', { class: 'kicker' }, h('span', { class: 'num' }, String(p.n).padStart(2, '0')), (p.role || '') + (p.signalName ? ' · ' + p.signalName : '')),
       h('h1', null, p.title),
       p.summary ? h('p', { class: 'lede' }, p.summary) : null,
-      h('div', { class: 'readout' }, rows.map(function (r) { return [h('span', { class: 'r-label' }, r[0]), h('span', { class: 'r-value' + (r[2] ? ' ' + r[2] : '') }, r[1])]; })));
+      h('div', { class: 'readout' }, rows.map(function (r) { return [h('span', { class: 'r-label' }, r[0]), h('span', { class: 'r-value' + (r[2] ? ' ' + r[2] : '') }, r[1])]; }),
+        h('span', { class: 'r-note' }, p.note || 'Outcomes as reported in the source brief; not independently verified.')));
   }
 
   function ExampleBanner(p) {

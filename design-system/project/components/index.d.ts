@@ -10,7 +10,7 @@ declare namespace GTMKit {
   interface FieldProps { id: string; label: string; kind?: 'text' | 'number' | 'select' | 'textarea'; value?: string | number; options?: string[]; placeholder?: string; help?: string; onInput?: (value: string) => void }
   interface TabsProps { items: { id: string; label: string; render: (panel: HTMLElement) => void }[]; initial?: string }
   interface TopBarProps { tools: { id: ToolId; n: number; title: string; href?: string }[]; current?: ToolId; homeHref?: string; name?: string }
-  interface ToolHeaderProps { n: number; title: string; role?: string; signalName?: string; summary?: string; outcome: string; metric?: string; source?: string; method?: string }
+  interface ToolHeaderProps { n: number; title: string; role?: string; signalName?: string; summary?: string; outcome: string; metric?: string; source?: string; method?: string; note?: string }
   interface ExampleBannerProps { title?: string; body?: string; primaryLabel?: string; secondaryLabel?: string; onStartBlank?: () => void; onKeep?: () => void }
   interface StatTileProps { label: string; value: string; sub?: string; key?: boolean }
   interface PillProps { text: string; tone?: '' | 'good' | 'warn' | 'bad' | 'info' }

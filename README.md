@@ -1,49 +1,76 @@
 # GTM Toolkit
 
-10 interactive tools for product marketing managers (PMMs) and go-to-market engineers (GTMEs), built from the executive brief *Modern Product Marketing, Go-To-Market Strategy, and Organizational Architecture*.
+10 interactive tools for product marketing managers (PMMs) and go-to-market engineers (GTMEs). Plan a launch and prove its lift. Route inbound leads with an agent and price what it costs to run. Audit why deals were really lost. Size a segment by cohort. Check copy for risk language. Turn 5 customer interviews into patterns you can act on.
 
-The brief ends with a metrics table: 10 results like "+31% engagement", "10 SDRs down to 1 SDR + agent" and "NRR from 107% to 120%". A table of results is nice to read, but you can't run it. So each row became a tool that runs the method behind the number on your own data.
+**Designed by Chris Conyers, built with Claude Code.**
 
-| # | Metric / objective | Outcome in the brief | Source context | Tool |
-| --- | --- | --- | --- | --- |
-| 1 | Sales Engagement Growth | +31% engagement, +21% feature usage | Whoop Dynamic Island launch | [Launch Lift Planner](tools/launch-lift.html) |
-| 2 | Merchant Coupon Adoption | +16% adoption, +$12K GMS | Etsy seller lifecycle campaign | [Adoption Campaign Builder](tools/adoption-campaign.html) |
-| 3 | Wholesale Category Expansion | +50% category sales | Reebok graphic tee positioning test | [Positioning Test Lab](tools/positioning-lab.html) |
-| 4 | Inbound Sales Automation | 10 SDRs → 1 SDR + agent | Vercel GTME inbound agent | [Inbound Qualification Agent](tools/inbound-agent.html) |
-| 5 | Inbound Agent Operating Cost | ~$1,000/year compute | Vercel AI Cloud | [Agent Economics Model](tools/agent-roi.html) |
-| 6 | Competitive Win Rate | 75% head-to-head | Atlin AI-assisted narrative | [Competitive Win Room](tools/win-room.html) |
-| 7 | Net Revenue Retention | 107% → 120% in < 2 years | Asana narrative products | [Narrative Product Library](tools/narrative-library.html) |
-| 8 | Product Launch Segment Growth | > $1B ARR | Adobe Express young creators | [Segment Opportunity Sizer](tools/segment-sizer.html) |
-| 9 | Buying Motivation Ratio | 80% risk avoidance vs. 20% upside | Enterprise buyer psychology | [Risk-First Messaging Studio](tools/risk-messaging.html) |
-| 10 | Customer Interview Certainty | 97% certainty from 5 interviews | Fast Five research framework | [Fast Five Research Kit](tools/fast-five.html) |
+**Live site (no sign-in needed):** https://crossoveranalytics3.github.io/gtme_tools/
 
-Every tool opens on its case from the brief (and has a **Load example** button to get back to it), so you see a filled-in version before you touch your own data. The tests check that each example reproduces the brief's number (the Whoop example really computes +31%, the VR sizing really lands on 24M, and so on).
+## About
 
-## Use it now: hosted versions
+I'm Chris Conyers. I built this to test an idea: take one executive brief on modern product marketing and GTM, and turn every framework in it into a tool you can actually run. Real inputs, real math, and outputs you can paste straight into a launch plan, a deal review or a renewal prep doc.
 
-Every tool is also published as its own page on claude.ai, so you can work in it without cloning anything:
+I set the direction: which problems to solve, which frameworks to build, the design system, the voice, and the bar for done. I also reviewed the output. Claude Code wrote the code, tests and docs, which is why the commit history shows Claude as the author. The math in every tool is covered by tests, and anything the brief claims that I couldn't verify is labeled that way.
 
-| Page | Link | Signal color |
+## What's inside
+
+| Tool | What it does | For |
 | --- | --- | --- |
-| Home (all tools) | https://claude.ai/artifact/B489vXxRZku7dJ5LxcAU9K | |
-| 1. Launch Lift Planner | https://claude.ai/artifact/CfwsciC7jrQ954NH7L5GyF | Lift blue |
-| 2. Adoption Campaign Builder | https://claude.ai/artifact/Qqc7oVr8LqDFhdNEHNvsKN | Adoption green |
-| 3. Positioning Test Lab | https://claude.ai/artifact/Jc57Tdw35gPkBUnfx8Kw42 | Variant magenta |
-| 4. Inbound Qualification Agent | https://claude.ai/artifact/8rWU4q5fWq9gTA1AXCWxtG | Agent teal |
-| 5. Agent Economics Model | https://claude.ai/artifact/CXNnXwupNZmkTBzXhkY2xv | Ledger amber |
-| 6. Competitive Win Room | https://claude.ai/artifact/HCs5wUWns5PoZC87VcU9ko | Bake-off orange |
-| 7. Narrative Product Library | https://claude.ai/artifact/GXWJGXKpXUzkYtXXGvkJ8b | Narrative violet |
-| 8. Segment Opportunity Sizer | https://claude.ai/artifact/WJsch48xXbJzeTFwvn4dvC | Cohort olive |
-| 9. Risk-First Messaging Studio | https://claude.ai/artifact/SscnETXTUfqPmDUppuveJG | Risk red |
-| 10. Fast Five Research Kit | https://claude.ai/artifact/GbvrTDRpR7poSvHmn3dtbP | Interview cyan |
-| Design system | https://claude.ai/artifact/S4Bu3km2eoTYLCwWF7rsSu | |
+| [Launch Lift Planner](https://crossoveranalytics3.github.io/gtme_tools/tools/launch-lift.html) | Plan a feature launch, set engagement targets before you ship, and measure lift against a holdout with confidence intervals. | PMM |
+| [Adoption Campaign Builder](https://crossoveranalytics3.github.io/gtme_tools/tools/adoption-campaign.html) | Write a segment-aware lifecycle sequence that moves existing users onto a feature, then size the adopters and revenue it adds. | PMM |
+| [Positioning Test Lab](https://crossoveranalytics3.github.io/gtme_tools/tools/positioning-lab.html) | Draft competing positioning variants, size the test properly, and call a winner only when the statistics support it. | PMM |
+| [Inbound Qualification Agent](https://crossoveranalytics3.github.io/gtme_tools/tools/inbound-agent.html) | Encode inbound qualification rules, route every lead with its reasons, generate a matching LLM prompt, and run it from the CLI. | GTME |
+| [Agent Economics Model](https://crossoveranalytics3.github.io/gtme_tools/tools/agent-roi.html) | Price an AI agent per lead from tokens up, compare it to headcount, and model the pipeline from redeployed SDRs. | GTME |
+| [Competitive Win Room](https://crossoveranalytics3.github.io/gtme_tools/tools/win-room.html) | Track head-to-head win rate, audit what really killed lost deals, flag at-risk deals as Slack alerts, and keep battlecards current. | PMM + GTME |
+| [Narrative Product Library](https://crossoveranalytics3.github.io/gtme_tools/tools/narrative-library.html) | Keep messaging as approved, versioned blocks, compose them by persona and moment of truth, and model the effect on net revenue retention. Opens on an illustrative Personnel & Coaching example. | PMM |
+| [Segment Opportunity Sizer](https://crossoveranalytics3.github.io/gtme_tools/tools/segment-sizer.html) | Size a market by age cohort instead of a flat percentage, project ARR, and rank segments on size, growth and fit. | PMM |
+| [Risk-First Messaging Studio](https://crossoveranalytics3.github.io/gtme_tools/tools/risk-messaging.html) | Score copy for risk-avoidance vs. upside language, turn features into benefits and risks removed, and plan value-first discovery calls. | PMM + GTME |
+| [Fast Five Research Kit](https://crossoveranalytics3.github.io/gtme_tools/tools/fast-five.html) | Run 5 customer interviews off a data signal, capture notes, and synthesize patterns, with the math behind "5 is enough" spelled out. | PMM |
 
-On the hosted pages:
+Every tool opens on a worked example with a banner saying so, and every example is illustrative. The Narrative Product Library opens on a **Personnel & Coaching** example with head coach, analytics director and general manager personas. The other tools rebuild the cases from the source brief.
 
-- Each tool opens on the brief's example, with a banner saying so. Edit it or hit **Start blank**.
-- Your work saves to a private space on your claude.ai account as you type (the `db` capability, under `data/users/<you>/<tool>`), so it follows you across devices. Nobody else can see it, including the page owner. The browser keeps a local copy too.
-- **Save .md**, **Export JSON** and CSV downloads go through claude.ai's download prompt. **Copy** buttons work everywhere.
-- These pages are private until you share them from each page's **Share** menu. People you share with as Viewers can use the tools, but their work saves only in their own browser; give them Contributor access if their work should save to their account.
+## Try it
+
+- **Live site:** https://crossoveranalytics3.github.io/gtme_tools/ runs in any browser with no account. Work saves in that browser; **Export JSON** shares it.
+- **claude.ai versions:** the same tools, saving to your claude.ai account so your work follows you across devices. These open only for people the owner has shared them with.
+
+| Page | claude.ai link |
+| --- | --- |
+| Home (all tools) | https://claude.ai/artifact/B489vXxRZku7dJ5LxcAU9K |
+| 1. Launch Lift Planner | https://claude.ai/artifact/CfwsciC7jrQ954NH7L5GyF |
+| 2. Adoption Campaign Builder | https://claude.ai/artifact/Qqc7oVr8LqDFhdNEHNvsKN |
+| 3. Positioning Test Lab | https://claude.ai/artifact/Jc57Tdw35gPkBUnfx8Kw42 |
+| 4. Inbound Qualification Agent | https://claude.ai/artifact/8rWU4q5fWq9gTA1AXCWxtG |
+| 5. Agent Economics Model | https://claude.ai/artifact/CXNnXwupNZmkTBzXhkY2xv |
+| 6. Competitive Win Room | https://claude.ai/artifact/HCs5wUWns5PoZC87VcU9ko |
+| 7. Narrative Product Library | https://claude.ai/artifact/GXWJGXKpXUzkYtXXGvkJ8b |
+| 8. Segment Opportunity Sizer | https://claude.ai/artifact/WJsch48xXbJzeTFwvn4dvC |
+| 9. Risk-First Messaging Studio | https://claude.ai/artifact/SscnETXTUfqPmDUppuveJG |
+| 10. Fast Five Research Kit | https://claude.ai/artifact/GbvrTDRpR7poSvHmn3dtbP |
+| Design system | https://claude.ai/artifact/S4Bu3km2eoTYLCwWF7rsSu |
+
+On the claude.ai versions, **Save .md**, **Export JSON** and CSV downloads go through claude.ai's download prompt, and people shared as Viewers can use every tool but their work saves only in their own browser.
+
+## Where the tools come from
+
+Each tool is built around one row of the "Key Synthesis Metrics" table in the executive brief *Modern Product Marketing, Go-To-Market Strategy, and Organizational Architecture*. The tools teach the method behind each row. The figures are the brief's, shown for context.
+
+> Outcomes as reported in the source brief; not independently verified.
+
+| # | Metric / objective | Reported outcome | Source context in the brief | Tool |
+| --- | --- | --- | --- | --- |
+| 1 | Sales Engagement Growth | +31% engagement, +21% feature usage | Whoop Dynamic Island launch | Launch Lift Planner |
+| 2 | Merchant Coupon Adoption | +16% adoption, +$12K GMS | Etsy seller lifecycle campaign | Adoption Campaign Builder |
+| 3 | Wholesale Category Expansion | +50% category sales | Reebok graphic tee positioning test | Positioning Test Lab |
+| 4 | Inbound Sales Automation | 10 SDRs to 1 SDR + agent | Vercel GTME inbound agent | Inbound Qualification Agent |
+| 5 | Inbound Agent Operating Cost | ~$1,000/year compute | Vercel AI Cloud | Agent Economics Model |
+| 6 | Competitive Win Rate | 75% head-to-head | Atlin AI-assisted narrative | Competitive Win Room |
+| 7 | Net Revenue Retention | 107% to 120% in < 2 years | Asana narrative products | Narrative Product Library |
+| 8 | Product Launch Segment Growth | > $1B ARR | Adobe Express young creators | Segment Opportunity Sizer |
+| 9 | Buying Motivation Ratio | 80% risk avoidance vs. 20% upside | Enterprise buyer psychology | Risk-First Messaging Studio |
+| 10 | Customer Interview Certainty | 97% certainty from 5 interviews | Fast Five research framework | Fast Five Research Kit |
+
+The example data in each tool is built so the math lands on the brief's figure (the tests check this), which shows the tool works. It isn't evidence that the figures themselves are right. One example: the Fast Five tool explains that "97%" is the chance a problem shared by half your users comes up in 5 interviews, not a measure of certainty about anything else.
 
 ## Quick start
 
@@ -53,7 +80,7 @@ You need Node 18 or newer. There are no dependencies to install.
 git clone https://github.com/CrossoverAnalytics3/gtme_tools.git
 cd gtme_tools
 npm start          # http://localhost:4173
-npm test           # 41 tests, node's built-in runner
+npm test           # 43 tests, node's built-in runner
 ```
 
 Opening `index.html` straight from disk won't work: browsers block JavaScript modules on `file://` URLs (the page tells you this if you try). Use `npm start` or the hosted version.
@@ -74,7 +101,7 @@ The repo ships with a GitHub Pages workflow (`.github/workflows/pages.yml`). Tur
 
 ### 1. Launch Lift Planner
 
-**Brief outcome:** +31% engagement, +21% feature usage (Whoop Dynamic Island heart rate zones launch)  
+**Reported outcome (from the brief, not independently verified):** +31% engagement, +21% feature usage (Whoop Dynamic Island heart rate zones launch)  
 **Framework:** Know the User, Know the Magic, Connect the Two + the 6-phase GTM framework  
 **For:** Product marketing · [Open the tool](tools/launch-lift.html)
 
@@ -89,7 +116,7 @@ Plan a feature launch end to end, set engagement and usage targets before you sh
 
 ### 2. Adoption Campaign Builder
 
-**Brief outcome:** +16% adoption, +$12K GMS impact (Etsy seller educational lifecycle campaign)  
+**Reported outcome (from the brief, not independently verified):** +16% adoption, +$12K GMS impact (Etsy seller educational lifecycle campaign)  
 **Framework:** Educational lifecycle sequence by adoption segment  
 **For:** Product marketing · [Open the tool](tools/adoption-campaign.html)
 
@@ -104,7 +131,7 @@ Build an educational lifecycle sequence that moves existing users onto a feature
 
 ### 3. Positioning Test Lab
 
-**Brief outcome:** +50% category sales growth (Reebok feminine graphic tee positioning test)  
+**Reported outcome (from the brief, not independently verified):** +50% category sales growth (Reebok feminine graphic tee positioning test)  
 **Framework:** Hypothesis-driven positioning variants + controlled test  
 **For:** Product marketing · [Open the tool](tools/positioning-lab.html)
 
@@ -119,7 +146,7 @@ Write competing positioning variants, size the test properly, then pick the winn
 
 ### 4. Inbound Qualification Agent
 
-**Brief outcome:** Reduced from 10 SDRs to 1 SDR + agent (Vercel GTME inbound agent deployment)  
+**Reported outcome (from the brief, not independently verified):** Reduced from 10 SDRs to 1 SDR + agent (Vercel GTME inbound agent deployment)  
 **Framework:** Legible, deterministic GTM workflow encoded as an agent with human QA  
 **For:** GTM engineering · [Open the tool](tools/inbound-agent.html)
 
@@ -134,7 +161,7 @@ Encode your inbound qualification rules once, route every lead with reasons, and
 
 ### 5. Agent Economics Model
 
-**Brief outcome:** ~$1,000 per year in compute cost (Vercel AI Cloud infrastructure)  
+**Reported outcome (from the brief, not independently verified):** ~$1,000 per year in compute cost (Vercel AI Cloud infrastructure)  
 **Framework:** Unit economics of an AI agent vs. headcount, plus redeployment upside  
 **For:** GTM engineering · [Open the tool](tools/agent-roi.html)
 
@@ -149,7 +176,7 @@ Model what an agent really costs to run per lead and per year, what it saves, an
 
 ### 6. Competitive Win Room
 
-**Brief outcome:** 75% in head-to-head evaluations (Atlin AI-assisted narrative positioning)  
+**Reported outcome (from the brief, not independently verified):** 75% in head-to-head evaluations (Atlin AI-assisted narrative positioning)  
 **Framework:** Battlecards + win/loss + Lostbot and Dealbot agents  
 **For:** PMM + GTME · [Open the tool](tools/win-room.html)
 
@@ -164,7 +191,7 @@ Track head-to-head win rate by competitor, audit why deals really died, flag ope
 
 ### 7. Narrative Product Library
 
-**Brief outcome:** Scaled from 107% to 120% in < 2 years (Asana composable narrative products)  
+**Reported outcome (from the brief, not independently verified):** Scaled from 107% to 120% in < 2 years (Asana composable narrative products)  
 **Framework:** Composable, pre-approved messaging blocks mapped to moments of truth  
 **For:** Product marketing · [Open the tool](tools/narrative-library.html)
 
@@ -179,7 +206,7 @@ Store messaging as approved, versioned blocks, compose them by persona and momen
 
 ### 8. Segment Opportunity Sizer
 
-**Brief outcome:** Scaled to > $1 Billion ARR (Adobe Express young creator segment strategy)  
+**Reported outcome (from the brief, not independently verified):** Scaled to > $1 Billion ARR (Adobe Express young creator segment strategy)  
 **Framework:** Cohort-based market sizing + 3-axis segmentation (size, growth, attributes)  
 **For:** Product marketing · [Open the tool](tools/segment-sizer.html)
 
@@ -194,7 +221,7 @@ Size a segment bottom-up by cohort instead of a flat percentage, project ARR, an
 
 ### 9. Risk-First Messaging Studio
 
-**Brief outcome:** 80% risk avoidance vs. 20% upside (Enterprise sales decision-making psychology)  
+**Reported outcome (from the brief, not independently verified):** 80% risk avoidance vs. 20% upside (Enterprise sales decision-making psychology)  
 **Framework:** Risk-reduction psychology + feature-to-benefit translation + value-add discovery  
 **For:** PMM + GTME · [Open the tool](tools/risk-messaging.html)
 
@@ -208,7 +235,7 @@ Check if your copy speaks to the risk buyers are trying to avoid, translate feat
 
 ### 10. Fast Five Research Kit
 
-**Brief outcome:** 97% certainty from 5 interviews (Fast Five qualitative research framework)  
+**Reported outcome (from the brief, not independently verified):** 97% certainty from 5 interviews (Fast Five qualitative research framework)  
 **Framework:** 5 unscripted 50-minute interviews triggered by a quantitative signal  
 **For:** Product marketing · [Open the tool](tools/fast-five.html)
 

@@ -32,10 +32,11 @@ function writeLocal(k, v) {
 
 /**
  * opts.example   state to start from on a first visit (marked as example)
+ * opts.exampleId which example that is, so the banner can name it
  * opts.onRemote  called with nothing when the account copy replaced state
  * opts.onStatus  called with 'local' | 'syncing' | 'synced' | 'error'
  */
-export function createStore(key, defaults, { example = null, onRemote, onStatus } = {}) {
+export function createStore(key, defaults, { example = null, exampleId = 'brief', onRemote, onStatus } = {}) {
   const k = PREFIX + key;
   const metaKey = `${k}:meta`;
   const stored = readLocal(k);
@@ -44,7 +45,7 @@ export function createStore(key, defaults, { example = null, onRemote, onStatus 
   if (stored) state = { ...clone(defaults), ...stored };
   else if (example) {
     state = { ...clone(defaults), ...clone(example) };
-    meta = { fromExample: true, updatedAt: 0 };
+    meta = { fromExample: exampleId, updatedAt: 0 };
   } else state = clone(defaults);
 
   let ref = null;
@@ -55,7 +56,7 @@ export function createStore(key, defaults, { example = null, onRemote, onStatus 
 
   async function pushRemote() {
     if (!ref) return;
-    const body = { json: JSON.stringify(state), fromExample: !!meta.fromExample, updatedAt: meta.updatedAt };
+    const body = { json: JSON.stringify(state), fromExample: meta.fromExample || false, updatedAt: meta.updatedAt };
     status('syncing');
     writing = writing
       .then(() => ref.set(body))
@@ -87,7 +88,7 @@ export function createStore(key, defaults, { example = null, onRemote, onStatus 
       const remote = snap.exists ? snap.data() : null;
       if (remote && remote.json && (remote.updatedAt || 0) >= (meta.updatedAt || 0)) {
         state = { ...clone(defaults), ...JSON.parse(remote.json) };
-        meta = { fromExample: !!remote.fromExample, updatedAt: remote.updatedAt || 0 };
+        meta = { fromExample: remote.fromExample || false, updatedAt: remote.updatedAt || 0 };
         writeLocal(k, state);
         writeLocal(metaKey, meta);
         status('synced');
@@ -107,8 +108,9 @@ export function createStore(key, defaults, { example = null, onRemote, onStatus 
     get state() {
       return state;
     },
+    /** Id of the example the page is showing ('brief', 'sports'...), or false. */
     get fromExample() {
-      return !!meta.fromExample;
+      return meta.fromExample === true ? 'brief' : meta.fromExample || false;
     },
     get connected() {
       return !!ref;

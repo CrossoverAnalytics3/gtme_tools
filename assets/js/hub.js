@@ -1,5 +1,5 @@
 import { TOOLS, ROLES, getTool } from './core/registry.js';
-import { topbar, footer } from './core/shell.js';
+import { topbar, footer, DISCLAIMER, CREDIT } from './core/shell.js';
 import { h, replaceChildren, button } from './core/dom.js';
 import { toolHref, designSystemHref } from './core/links.js';
 
@@ -65,10 +65,11 @@ function render() {
   const main = h('main', { class: 'wrap' },
     h('section', { class: 'hub-hero' },
       h('div', { class: 'signal-strip', 'aria-hidden': 'true' }, TOOLS.map((t) => h('i', { style: `--c: var(--sig-${t.id})` }))),
-      h('div', { class: 'kicker' }, 'From executive brief to working tools'),
-      h('h1', null, 'Ten results from the brief, rebuilt as tools you can run'),
+      h('div', { class: 'kicker' }, 'Product marketing + GTM engineering'),
+      h('h1', null, 'Ten working tools for the jobs PMMs and GTM engineers do every week'),
       h('p', { class: 'lede', style: { maxWidth: '68ch', color: 'var(--ink-2)', fontSize: '1.05rem', margin: 0 } },
-        'The brief\'s metrics table lists what worked: +31% engagement, 10 SDRs down to 1, NRR from 107% to 120%. Each tool takes one of those results and gives you the method behind it, with the brief\'s case loaded so you can see it working before you add your own numbers.'),
+        'Plan a launch and prove its lift against a holdout. Route inbound leads with a rules-based agent and price what it costs to run. Audit why deals were really lost, size a segment by cohort, check copy for risk language, and turn five customer interviews into patterns. Each tool runs one framework from an executive brief on modern product marketing, on your own numbers.'),
+      h('p', { class: 'small', style: { margin: 0, color: 'var(--ink-2)' } }, CREDIT),
       h('div', { class: 'row' },
         h('a', { class: 'btn primary', href: '#tools' }, 'Browse the tools'),
         h('a', { class: 'btn', href: '#plays' }, 'See how they chain'),
@@ -76,10 +77,11 @@ function render() {
       ),
     ),
 
-    h('div', { class: 'section-title' }, h('h2', null, 'The metrics table, as tools')),
+    h('div', { class: 'section-title' }, h('h2', null, 'Where each tool comes from'), h('span', { class: 'small muted' }, DISCLAIMER)),
+    h('p', { class: 'small muted', style: { maxWidth: '72ch' } }, 'Each tool is built around one row of the brief\'s metrics table. The outcomes below are the brief\'s figures, shown for context. The tools teach the method; your numbers are what count.'),
     h('div', { class: 'table-wrap' },
       h('table', null,
-        h('thead', null, h('tr', null, ['Metric / objective', 'Outcome', 'Source context', 'Tool'].map((x) => h('th', null, x)))),
+        h('thead', null, h('tr', null, ['Metric / objective', 'Reported outcome', 'Source context', 'Tool'].map((x) => h('th', null, x)))),
         h('tbody', null,
           TOOLS.map((t) =>
             h('tr', { style: sig(t.id) },
@@ -115,7 +117,7 @@ function render() {
 
     h('div', { class: 'section-title' }, h('h2', null, 'How it works')),
     h('div', { class: 'grid grid-3' },
-      h('div', { class: 'card' }, h('h3', null, 'Opens on the brief\'s case'), h('p', { class: 'small' }, 'Every tool starts with the brief\'s example loaded (Whoop, Etsy, Vercel, Asana and the rest) and a banner saying so. Edit it, or start blank. The examples are illustrative, not company data.')),
+      h('div', { class: 'card' }, h('h3', null, 'Opens on a worked example'), h('p', { class: 'small' }, 'Every tool starts filled in, with a banner saying so. Edit it or start blank. The ', h('a', { href: toolHref('narrative-library', '.') }, 'Narrative Product Library'), ' opens on an illustrative Personnel & Coaching example (head coach, analytics director and GM personas); the rest rebuild the brief\'s cases. None of it is real company or team data.')),
       h('div', { class: 'card' }, h('h3', null, 'Your work is saved'), h('p', { class: 'small' }, 'Changes save as you type. On claude.ai they go to a private space on your account, so they follow you between devices. Export JSON to hand a filled-in tool to a teammate.')),
       h('div', { class: 'card' }, h('h3', null, 'Built for GTMEs too'), h('p', { class: 'small' }, 'The logic lives in plain, tested JS modules in the repo. The lead agent also runs from the command line: ', h('code', null, 'npm run qualify -- leads.csv'), '.')),
     ),

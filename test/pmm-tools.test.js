@@ -179,3 +179,27 @@ test('Fast Five: synthesis labels patterns and calls the hypothesis', () => {
   assert.equal(s.quotes.length, 2);
   assert.match(readoutMarkdown({ setup: {}, interviews: [] }), /96.9%/);
 });
+
+import { sportsExample, SPORTS_PERSONAS } from '../assets/js/lib/narrativeExamples.js';
+import { MOMENTS } from '../assets/js/lib/narrative.js';
+
+test('Narrative Library: Personnel & Coaching example covers every persona and moment', () => {
+  const ex = sportsExample('2026-10-01', '2025-01-01');
+  assert.deepEqual(ex.personas, ['Head coach', 'Analytics director', 'General manager']);
+  assert.deepEqual(ex.personas, SPORTS_PERSONAS);
+  for (const p of ex.personas) {
+    for (const m of MOMENTS) {
+      const c = compose(ex.blocks, p, m.id);
+      assert.ok(!c.gaps.includes('Core narrative'), `${p} @ ${m.id} has no core`);
+      assert.ok(!c.gaps.includes('Value pillar'), `${p} @ ${m.id} has no pillar`);
+      assert.ok(!c.gaps.includes('Call to action'), `${p} @ ${m.id} has no CTA`);
+    }
+    assert.deepEqual(compose(ex.blocks, p, 'renewal').gaps, [], `${p} renewal should be fully covered`);
+  }
+  // every proof point says it is illustrative or a template
+  for (const b of ex.blocks.filter((x) => x.type === 'proof')) assert.match(b.title, /\((illustrative|template)\)/);
+  // ids are unique and stable
+  assert.equal(new Set(ex.blocks.map((b) => b.id)).size, ex.blocks.length);
+  close(nrr(ex.model.current), 0.98);
+  close(nrr(ex.model.program), 1.09);
+});

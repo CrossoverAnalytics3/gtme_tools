@@ -1,5 +1,7 @@
 # From the brief to the tools
 
+> Outcomes as reported in the source brief; not independently verified. The tools reproduce the method behind each figure; they don't confirm the figures.
+
 The brief's "Key Synthesis Metrics Reference" table lists results. A result alone doesn't tell you what to do on Monday, so for each row I asked 3 questions:
 
 1. What did the team actually *do* to get this number? (the mechanism, from the brief's own frameworks)

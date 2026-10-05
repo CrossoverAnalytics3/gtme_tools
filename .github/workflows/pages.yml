@@ -1,9 +1,9 @@
 name: Deploy to GitHub Pages
 
-# One-time setup: Settings → Pages → Source: GitHub Actions.
+# One-time setup: Settings → Pages → Build and deployment → Source: GitHub Actions.
+# Deploys whatever is on the repository's default branch.
 on:
   push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     environment:
       name: github-pages

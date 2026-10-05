@@ -72,3 +72,15 @@ test('design system tokens match the app stylesheet', () => {
 test('design system bundle.css is the app stylesheet', () => {
   assert.equal(readFileSync(join(root, 'design-system/project/components/bundle.css'), 'utf8'), readFileSync(join(root, 'assets/css/app.css'), 'utf8'));
 });
+
+test('README carries the About section, credit line and outcome disclaimer', async () => {
+  const readme = readFileSync(join(root, 'README.md'), 'utf8');
+  const { CREDIT, DISCLAIMER } = await import('../assets/js/core/shell.js');
+  assert.match(readme, /^## About$/m);
+  assert.ok(readme.includes('Chris Conyers'));
+  assert.ok(readme.includes(CREDIT), 'README is missing the credit line');
+  assert.ok(readme.includes(DISCLAIMER), 'README is missing the disclaimer');
+  // the disclaimer comes before the first company-reported figure
+  assert.ok(readme.indexOf(DISCLAIMER) < readme.indexOf('+31%'), 'brief figures appear before the disclaimer');
+  assert.ok(readme.indexOf('## About') < readme.indexOf('Whoop'), 'README leads with a company case before the About section');
+});

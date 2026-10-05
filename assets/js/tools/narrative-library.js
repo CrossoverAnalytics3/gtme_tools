@@ -1,6 +1,7 @@
 import { mountTool } from '../core/shell.js';
 import { h, field, textInput, textArea, numberInput, percentInput, dateInput, select, checkbox, button, stat, pill, callout, table, replaceChildren, tabs, copyText, uid, hbars, ask } from '../core/dom.js';
 import { money, pct, todayISO, splitList, compact } from '../core/format.js';
+import { sportsExample } from '../lib/narrativeExamples.js';
 import { BLOCK_TYPES, MOMENTS, STATUSES, isStale, compose, coverage, nrr, expansionNeeded, nrrDollars, libraryMarkdown } from '../lib/narrative.js';
 
 const blankBlock = () => ({ id: uid('blk'), type: 'pillar', title: '', text: '', personas: [], moments: [], status: 'draft', owner: '', reviewedOn: '', version: 1 });
@@ -57,7 +58,11 @@ let filter = { q: '', status: 'all', type: 'all' };
 
 mountTool('narrative-library', {
   defaults,
-  example,
+  // The illustrative sports example opens first; the brief's case is one click away.
+  examples: [
+    { id: 'sports', button: 'Load sports example', banner: 'You\'re looking at an illustrative Personnel & Coaching example. It is not real team or customer data.', data: sportsExample(t, old) },
+    { id: 'brief', button: 'Load brief example', banner: 'You\'re looking at the example from the brief.', data: example },
+  ],
   markdown: libraryMarkdown,
   render(app, ctx) {
     tabs(

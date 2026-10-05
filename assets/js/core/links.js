@@ -3,6 +3,8 @@
 // HOSTED_LINKS with each page's claude.ai artifact URL.
 export const HOSTED_LINKS = null;
 
+const REPO_DESIGN_SYSTEM = 'https://github.com/CrossoverAnalytics3/gtme_tools/tree/HEAD/design-system/project';
+
 export function hubHref(base) {
   return HOSTED_LINKS?.hub ?? `${base}/index.html`;
 }
@@ -12,5 +14,5 @@ export function toolHref(id, base) {
 }
 
 export function designSystemHref(base) {
-  return HOSTED_LINKS?.designSystem ?? `${base}/design-system/project/README.md`;
+  return HOSTED_LINKS?.designSystem ?? REPO_DESIGN_SYSTEM;
 }

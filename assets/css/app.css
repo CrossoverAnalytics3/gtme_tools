@@ -380,6 +380,7 @@ code, pre, .mono { font-family: var(--font-mono); font-size: 0.86em; }
 }
 .readout .r-label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
 .readout .r-value { font-weight: 600; }
+.readout .r-note { grid-column: 1 / -1; font-size: 0.75rem; color: var(--ink-3); margin-top: 6px; }
 .readout .r-value.big { font-family: var(--font-display); font-stretch: 112%; font-size: 1.15rem; color: var(--accent); }
 
 details.explainer {
@@ -686,6 +687,7 @@ footer.site {
   text-align: center;
 }
 footer.site p { margin: 0 0 6px; }
+footer.site .credit { color: var(--ink-2); font-weight: 500; }
 
 .sync { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-3); white-space: nowrap; }
 
